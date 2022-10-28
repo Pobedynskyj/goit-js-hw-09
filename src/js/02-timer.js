@@ -2,16 +2,18 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix, { Notify } from 'notiflix';
 
-let getEl = selector => document.querySelector(selector);
-
-const input = getEl(`#datetime-picker`);
-const btnStart = getEl(`button`);
-const days = getEl(`[data-days]`);
-const hours = getEl(`[data-hours]`);
-const minutes = getEl(`[data-minutes]`);
-const seconds = getEl(`[data-seconds]`);
+refs = {
+  input: document.querySelector(`#datetime-picker`),
+  btnStart: document.querySelector(`[data-start]`),
+  days: document.querySelector(`[data-days]`),
+  hours: document.querySelector(`[data-hours]`),
+  minutes: document.querySelector(`[data-minutes]`),
+  seconds: document.querySelector(`[data-seconds]`),
+};
 
 let timerId = null;
+const DELAY = 1000;
+refs.btnStart.setAttribute('disabled', true);
 
 const options = {
   enableTime: true,
@@ -23,13 +25,32 @@ const options = {
     let currentDate = new Date();
 
     let exam = Boolean(currentDate < selectedDates[0]);
-    console.log(exam);
     if (exam) {
-      // btnStart.setAttribute('disabled', false);
+      refs.btnStart.removeAttribute('disabled');
+      refs.btnStart.addEventListener('click', () => {
+        refs.btnStart.setAttribute('disabled', true);
+        timerId =
+          (() => {
+            currentDate = new Date();
+            let delta = selectedDates[0] - currentDate;
+            convertMs(delta);
+
+            // if (!exam) {
+            //   clearInterval(timerId);
+            //   Notify.success('Timeout');
+            // }
+          },
+          DELAY);
+      });
     }
   },
 };
+
 flatpickr(`input[type="text"]`, options);
+
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -39,19 +60,15 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const days = Math.floor(ms / day);
+  const days = addLeadingZero(Math.floor(ms / day));
   // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
+  const hours = addLeadingZero(Math.floor((ms % day) / hour));
   // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
+  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
   // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const seconds = addLeadingZero(
+    Math.floor((((ms % day) % hour) % minute) / second)
+  );
 
   return { days, hours, minutes, seconds };
 }
-//       let roundVal = selectedDates[0] - date;
-//       let dataValues = convertMs(roundVal) {
-//           days.textContent = dataValues.days.toString().padStart(2, 0);
-//   hours.textContent = dataValues.hours.toString().padStart(2, 0);
-//   minutes.textContent = dataValues.minutes.toString().padStart(2, 0);
-//   seconds.textContent = dataValues.seconds.toString().padStart(2, 0);
