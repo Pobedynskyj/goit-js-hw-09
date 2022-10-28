@@ -12,7 +12,6 @@ const minutes = getEl(`[data-minutes]`);
 const seconds = getEl(`[data-seconds]`);
 
 let timerId = null;
-btnStart.setAttribute('disabled', true);
 
 const options = {
   enableTime: true,
@@ -21,7 +20,13 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     console.log(selectedDates[0]);
-    let now = new Date().getTime();
+    let currentDate = new Date();
+
+    let exam = Boolean(currentDate < selectedDates[0]);
+    console.log(exam);
+    if (exam) {
+      // btnStart.setAttribute('disabled', false);
+    }
   },
 };
 flatpickr(`input[type="text"]`, options);

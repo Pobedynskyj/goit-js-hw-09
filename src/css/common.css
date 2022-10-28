@@ -16,3 +16,27 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.timer {
+  position: absolute;
+  display: flex;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  border: solid tomato;
+  border-radius: 20%;
+  width: 80px;
+  margin: 10px 1px;
+}
+
+#datetime-picker {
+  width: 270px;
+  border: solid tomato;
+}
+
+.value,
+.label {
+  text-align: center;
+}
