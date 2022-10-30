@@ -33,7 +33,7 @@ const options = {
           let delta = selectedDates[0] - currentDate;
           let values = convertMs(delta);
           addLeadingZero(values);
-          if ((delta = selectedDates[0] === currentDate)) {
+          if (delta < 1000) {
             clearInterval(timerId);
             Notify.success('Timeout');
           }
