@@ -1,6 +1,6 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import Notify from 'notiflix';
+import Notiflix from 'notiflix';
 
 refs = {
   input: document.querySelector(`#datetime-picker`),
@@ -35,13 +35,13 @@ const options = {
           addLeadingZero(values);
           if (delta < 1000) {
             clearInterval(timerId);
-            Notify.success('Timeout');
+            Notiflix.Notify.success('Timeout');
           }
         }, DELAY);
       });
     } else {
       refs.btnStart.setAttribute('disabled', true);
-      Notify.failure('Please choose a date in the future');
+      Notiflix.Notify.failure('Please choose a date in the future');
     }
   },
 };
