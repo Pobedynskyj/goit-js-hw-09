@@ -1,6 +1,6 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import Notiflix, { Notify } from 'notiflix';
+import Notify from 'notiflix';
 
 refs = {
   input: document.querySelector(`#datetime-picker`),
